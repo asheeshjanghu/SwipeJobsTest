@@ -2,8 +2,6 @@ package com.swipejobs.test.service;
 
 import com.swipejobs.test.model.Job;
 
-import java.util.List;
-
 /**
  * A Service responsible for fetching jobs
  */
@@ -15,5 +13,5 @@ public interface JobService {
      *
      * @return list of available jobs
      */
-    List<Job> fetchJobs();
+    Job[] fetchJobs();
 }
