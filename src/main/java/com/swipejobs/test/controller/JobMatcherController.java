@@ -3,8 +3,11 @@ package com.swipejobs.test.controller;
 import com.swipejobs.test.model.Job;
 import com.swipejobs.test.model.Worker;
 import com.swipejobs.test.service.JobService;
+import com.swipejobs.test.service.JobServiceImpl;
 import com.swipejobs.test.service.MatcherService;
 import com.swipejobs.test.service.WorkerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 public class JobMatcherController {
+    private static final Logger logger = LoggerFactory.getLogger(JobMatcherController.class);
 
     private static final int TOP_N = 3;
     private final JobService jobService;
@@ -30,15 +34,27 @@ public class JobMatcherController {
 
     @GetMapping("/api/matches/{workerId}")
     public Job[] getMatchingJobs(@PathVariable int workerId) {
-        System.out.println("Start Fetching Jobs");
+        logger.info("Received request for matching jobs for worker:"+workerId);
+
         Job[] jobs = jobService.fetchJobs();
-        System.out.println("Finished Fetching Jobs");
-        Worker[] workers = workerService.fetchWorkers();
-        System.out.println("Finished Fetching workers");
-        Optional<Worker> optionalWorker = Arrays.stream(workers).filter(worker -> worker.getUserId() == workerId).findFirst();
-        if (optionalWorker.isPresent()){
-            return matcherService.getMatchingJobs(optionalWorker.get(), jobs, TOP_N);
+        if (jobs == null || jobs.length == 0) {
+            logger.error("No jobs available to select from.");
+        } else {
+            Worker[] workers = workerService.fetchWorkers();
+            if (workers == null || workers.length == 0) {
+                logger.error("No worker available to find the worker from.");
+            } else {
+                Optional<Worker> optionalWorker = Arrays.stream(workers).filter(worker -> worker.getUserId() == workerId).findFirst();
+                if (optionalWorker.isPresent()){
+                    logger.info("Find matching jobs for "+optionalWorker.get());
+                    jobs = matcherService.getMatchingJobs(optionalWorker.get(), jobs, TOP_N);
+                    logger.info("Successfully found matching jobs: "+jobs);
+                } else {
+                    logger.error("Provided worker id does not match with any available workers");
+                }
+            }
         }
+
         return jobs;
     }
 }
