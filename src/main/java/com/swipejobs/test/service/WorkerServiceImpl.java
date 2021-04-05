@@ -1,8 +1,10 @@
 package com.swipejobs.test.service;
 
+import com.swipejobs.test.config.AppConfig;
 import com.swipejobs.test.model.Worker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,8 @@ public class WorkerServiceImpl implements WorkerService {
 
     private final RestTemplate restTemplate;
 
-    private static final String url = "https://test.swipejobs.com/api/workers";
+    @Autowired
+    AppConfig config;
 
     public WorkerServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -31,7 +34,7 @@ public class WorkerServiceImpl implements WorkerService {
     public Worker[] fetchWorkers() {
         Worker[] workers = new Worker[0];
         try {
-            ResponseEntity<Worker[]> responseEntity = restTemplate.getForEntity(url, Worker[].class);
+            ResponseEntity<Worker[]> responseEntity = restTemplate.getForEntity(config.getWorkerApiUrl(), Worker[].class);
             if (responseEntity.getBody() == null) {
                 logger.error("No body in the response to get workers.");
             } else if (responseEntity.getStatusCode() != HttpStatus.OK) {

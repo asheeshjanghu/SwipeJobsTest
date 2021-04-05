@@ -1,8 +1,10 @@
 package com.swipejobs.test.service;
 
+import com.swipejobs.test.config.AppConfig;
 import com.swipejobs.test.model.Job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,8 @@ public class JobServiceImpl implements JobService {
 
     private final RestTemplate restTemplate;
 
-    private static final String url = "https://test.swipejobs.com/api/jobs";
+    @Autowired
+    AppConfig config;
 
     public JobServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -31,7 +34,7 @@ public class JobServiceImpl implements JobService {
     public Job[] fetchJobs() {
         Job[] jobs = new Job[0];
         try {
-            ResponseEntity<Job[]> responseEntity = restTemplate.getForEntity(url, Job[].class);
+            ResponseEntity<Job[]> responseEntity = restTemplate.getForEntity(config.getJobApiUrl(), Job[].class);
             if (responseEntity.getBody() == null) {
                 logger.error("No body in the response to get jobs.");
             } else if (responseEntity.getStatusCode() != HttpStatus.OK) {

@@ -1,5 +1,6 @@
 package com.swipejobs.test.controller;
 
+import com.swipejobs.test.config.AppConfig;
 import com.swipejobs.test.model.Job;
 import com.swipejobs.test.model.Worker;
 import com.swipejobs.test.service.JobService;
@@ -8,6 +9,7 @@ import com.swipejobs.test.service.MatcherService;
 import com.swipejobs.test.service.WorkerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +23,8 @@ import java.util.Optional;
 public class JobMatcherController {
     private static final Logger logger = LoggerFactory.getLogger(JobMatcherController.class);
 
-    private static final int TOP_N = 3;
+    @Autowired
+    AppConfig config;
     private final JobService jobService;
     private final WorkerService workerService;
     private final MatcherService matcherService;
@@ -47,7 +50,7 @@ public class JobMatcherController {
                 Optional<Worker> optionalWorker = Arrays.stream(workers).filter(worker -> worker.getUserId() == workerId).findFirst();
                 if (optionalWorker.isPresent()){
                     logger.info("Find matching jobs for "+optionalWorker.get());
-                    jobs = matcherService.getMatchingJobs(optionalWorker.get(), jobs, TOP_N);
+                    jobs = matcherService.getMatchingJobs(optionalWorker.get(), jobs, config.getMaxRelevantJobsLimit());
                     logger.info("Successfully found matching jobs: "+jobs);
                 } else {
                     logger.error("Provided worker id does not match with any available workers");
