@@ -5,12 +5,12 @@ import java.util.List;
 public class Worker {
     private int rating;
     private boolean isActive;
-    private List<String> certificates = null;
-    private List<String> skills = null;
+    private List<String> certificates;
+    private List<String> skills;
     private JobSearchAddress jobSearchAddress;
     private String transportation;
     private boolean hasDriversLicense;
-    private List<Availability> availability = null;
+    private List<Availability> availability;
     private String phone;
     private String email;
     private Name name;

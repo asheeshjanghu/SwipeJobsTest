@@ -1,100 +1,62 @@
 package com.swipejobs.test.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Job {
 
-    private Integer rating;
-    private Boolean isActive;
-    private List<String> certificates = null;
-    private List<String> skills = null;
-    private JobSearchAddress jobSearchAddress;
-    private String transportation;
-    private Boolean hasDriversLicense;
-    private List<Availability> availability = null;
-    private String phone;
-    private String email;
-    private Name name;
-    private Integer age;
+    private boolean driverLicenseRequired;
+    private List<String> requiredCertificates = null;
+    private Location location;
+    private String billRate;
+    private int workersRequired;
+    private String startDate;
+    private String about;
+    private String jobTitle;
+    private String company;
     private String guid;
-    private Integer userId;
+    private int jobId;
 
-    public Integer getRating() {
-        return rating;
+    public boolean isDriverLicenseRequired() {
+        return driverLicenseRequired;
     }
 
-    public Boolean getActive() {
-        return isActive;
+    public List<String> getRequiredCertificates() {
+        return requiredCertificates;
     }
 
-    public List<String> getCertificates() {
-        return certificates;
+    public Location getLocation() {
+        return location;
     }
 
-    public List<String> getSkills() {
-        return skills;
+    public String getBillRate() {
+        return billRate;
     }
 
-    public JobSearchAddress getJobSearchAddress() {
-        return jobSearchAddress;
+    public int getWorkersRequired() {
+        return workersRequired;
     }
 
-    public String getTransportation() {
-        return transportation;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public Boolean getHasDriversLicense() {
-        return hasDriversLicense;
+    public String getAbout() {
+        return about;
     }
 
-    public List<Availability> getAvailability() {
-        return availability;
+    public String getJobTitle() {
+        return jobTitle;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Name getName() {
-        return name;
-    }
-
-    public Integer getAge() {
-        return age;
+    public String getCompany() {
+        return company;
     }
 
     public String getGuid() {
         return guid;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    @Override
-    public String toString() {
-        return "Job{" +
-                "rating=" + rating +
-                ", isActive=" + isActive +
-                ", certificates=" + certificates +
-                ", skills=" + skills +
-                ", jobSearchAddress=" + jobSearchAddress +
-                ", transportation='" + transportation + '\'' +
-                ", hasDriversLicense=" + hasDriversLicense +
-                ", availability=" + availability +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", name=" + name +
-                ", age=" + age +
-                ", guid='" + guid + '\'' +
-                ", userId=" + userId +
-                '}';
+    public int getJobId() {
+        return jobId;
     }
 }

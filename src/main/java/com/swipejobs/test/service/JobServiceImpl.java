@@ -9,7 +9,7 @@ public class JobServiceImpl implements JobService {
 
     private final RestTemplate restTemplate;
 
-    private static final String url = "https://test.swipejobs.com/api/workers";
+    private static final String url = "https://test.swipejobs.com/api/jobs";
 
     public JobServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
