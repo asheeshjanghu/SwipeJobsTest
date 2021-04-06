@@ -1,7 +1,10 @@
 package com.swipejobs.test.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Worker {
     private int rating;
     private boolean isActive;
