@@ -33,8 +33,11 @@ public class MatcherServiceImpl implements MatcherService {
         if (availableJobs == null || availableJobs.length == 0 || worker == null) return new Job[0];
 
         Job[] matchingJobs = Arrays.stream(availableJobs)
-                .filter(job ->
-                        job.isDriverLicenseRequired() == worker.isHasDriversLicense())
+                .filter(job -> {
+                            if (job.isDriverLicenseRequired()) return worker.isHasDriversLicense();
+                            else return true;
+                        }
+                )
                 .peek(job ->
                         System.out.println("Licence: " + job.toString()))
                 .filter(job ->
