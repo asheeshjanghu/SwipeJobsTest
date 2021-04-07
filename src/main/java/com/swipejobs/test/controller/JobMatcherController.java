@@ -31,7 +31,7 @@ public class JobMatcherController {
         this.matcherService = matcherService;
     }
 
-    @GetMapping("/api/matches/{workerId}")
+    @GetMapping("/api/jobs/{workerId}")
     public Job[] getMatchingJobs(@PathVariable int workerId) {
         logger.info("Received request for matching jobs for worker:" + workerId);
 
